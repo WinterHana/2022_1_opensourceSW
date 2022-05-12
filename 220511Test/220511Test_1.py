@@ -12,7 +12,10 @@ while play:
         # print(event.type) # 이벤트 코드 출력
         if event.type == pygame.QUIT:
             play = False
+            
+    background.fill((255, 255, 255))
 
 pygame.quit()
+
 
 # print(pygame.K_0) # 이벤트 코드가 몇인지 알 수 있음

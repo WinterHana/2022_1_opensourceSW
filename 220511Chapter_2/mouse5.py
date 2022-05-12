@@ -23,4 +23,4 @@ while play:
     pygame.draw.circle(background, (255, 0, 255), (x_pos, y_pos), 10)     
     pygame.display.update()
 
-pygame.quit
+pygame.quit()
