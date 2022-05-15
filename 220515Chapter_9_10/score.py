@@ -39,6 +39,10 @@ to_x = 0
 x_speed_aris2 = 10
 y_speed_aris2 = 10
 
+# 게임에서 얻는 포인트 변수 놓기
+point = 0
+font_point = pygame.font.SysFont(None, 30)
+
 # 게임의 창을 계속 유지시킨다.
 play = True
 while play:
@@ -86,8 +90,10 @@ while play:
     elif y_pos_aris2 <= 0: # 위에 부딪힐 때
         y_speed_aris2 = -y_speed_aris2
         y_pos_aris2 = 0
+        
     elif y_pos_aris2 >= size_bg_height - size_aris2_height: # 아래에 부딪힐 때
         print("바닥 충돌")
+        point -= 1
         y_speed_aris2 = -y_speed_aris2
         y_pos_aris2 = size_bg_height - size_aris2_height
     
@@ -104,6 +110,7 @@ while play:
     # 충돌하면 속도의 방향을 반대로 해서 튕겨나가게 하기
     if rect_aris2.colliderect(rect_aris):
         print("아리스끼리 충돌")
+        point += 1
         x_speed_aris2 = - x_speed_aris2
         y_speed_aris2 = - y_speed_aris2
     
@@ -111,6 +118,9 @@ while play:
     background.blit(image_bg, (0, 0))
     background.blit(image_aris, (x_pos_aris, y_pos_aris))
     background.blit(image_aris2, (x_pos_aris2, y_pos_aris2))
+    
+    text_point = font_point.render(str(point), True, (0, 0, 0))
+    background.blit(text_point, (10, 10))
     
     pygame.display.update()
     
