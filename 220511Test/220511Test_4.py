@@ -1,4 +1,5 @@
 # 전체 주석 : CTRL + /
+# 한 단어 동시에 바꾸기 : CTRL + SHIFT + L
 # Test_3에서 키보드를 꾹 누를 때 계속 움직일 수 있도록 개선함
 import pygame
 
