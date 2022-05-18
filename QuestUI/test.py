@@ -1,10 +1,12 @@
 import pygame
 import random
+import time
 
 pygame.init()
-
+## 기초 설정
 # 색깔
 white = (255, 255, 255)
+
 # 회면 크기 및 타이틀 설정
 display_width = 1300 # 가로 길이
 display_height = 600 # 세로 길이
@@ -28,7 +30,7 @@ y_pos_O = display_height / 2
 x_pos_X = display_width / 2 + XImg_width
 y_pos_X = display_height / 2
 
-# 충돌 이벤트를 위한 설정
+# 충돌 이벤트(마우스랑 o,x 클릭)를 위한 설정
 rect_O = OImg.get_rect()
 rect_O.left = x_pos_O
 rect_O.top = y_pos_O
@@ -37,8 +39,9 @@ rect_X = XImg.get_rect()
 rect_X.left = x_pos_X
 rect_X.top = y_pos_X
 
-# 퀴즈 텍스트 설정 및 랜덤 생성
+# 퀴즈, 그에 따른 정답 텍스트 설정
 Quiz_text = pygame.font.Font('QuestUI/image/Maplestory Light.ttf', 130)
+QuizAnswer_text = pygame.font.Font('QuestUI/image/Maplestory Light.ttf', 50)
 
 QuizList =  [
                 ["뚝배기", "True", "뚝배기"], 
@@ -81,33 +84,55 @@ quiz_no_text = pygame.font.Font('QuestUI/image/Maplestory Light.ttf', 30)
 
 clock = pygame.time.Clock()
 
-# 문제를 맞췄을 때와 틀렸을 때에 따라 다른 함수 호출하기
-def AnswerCorrect(point, quiz_no):
-    point += 1
-    quiz_no += 1
-    rara_face = correct_rara
-    print("맞추셨습니다.")
-    return point, quiz_no, rara_face
+## Quiz 클래스 작성
+class Quiz:
+    def __init__(self, point = 0, quiz_no = 1, rara_face = rara, quizAnswer = " ", random_quiz = random.randrange(0, len(QuizList))):
+        self.__point = point # 점수
+        self.__quiz_no = quiz_no # 문제 수               
+        self.__rara_face = rara_face # 표정 관리해!
+        self.__quizAnswer = quizAnswer
+        self.__random_quiz = random_quiz
+    
+    # 접근자 설정    
+    def getPoint(self):
+        return self.__point
+    
+    def getQuizNo(self):
+        return self.__quiz_no
+    
+    def getRaraface(self):
+        return self.__rara_face
+    
+    def getQuizAnswer(self):
+        return self.__quizAnswer
+    
+    def getRandomquiz(self):
+        return self.__random_quiz
+    
+     # 문제를 맞췄을 때와 틀렸을 때에 따라 다른 함수 호출하기
+    def AnswerCorrect(self, random_quiz):
+        self.__point += 1
+        self.__quiz_no += 1
+        self.__rara_face = correct_rara
+        self.__quizAnswer = "정답입니다!" + " 답은 " + QuizList[random_quiz][2] + "입니다!"
+        print("맞추셨습니다.")
 
-def AnswerIncorrect(point, quiz_no):
-    point -= 1
-    quiz_no += 1
-    rara_face = incorrect_rara
-    print("틀리셨습니다.")
-    return point, quiz_no, rara_face
+    def AnswerIncorrect(self, random_quiz):
+        self.__point -= 1
+        self.__quiz_no += 1
+        self.__rara_face = incorrect_rara
+        self.__quizAnswer = "오답입니다!" + " 답은 " + QuizList[random_quiz][2] + "입니다!"
+        print("틀리셨습니다.")
 
-# 약간의 딜레이 후 원래대로 돌아감
-def AnswerReturn():
-    random_quiz = random.randrange(0, len(QuizList))
-    rara_face = rara
-    return random_quiz, rara_face
+    # 약간의 딜레이 후 원래대로 돌아감
+    def AnswerReturn(self):
+        self.__random_quiz = random.randrange(0, len(QuizList))
+        return self.__random_quiz
     
 def mainmenu():
     menu = True
     
-    point = 0 # 점수
-    quiz_no = 1 # 문제 수               
-    rara_face = rara # 표정 관리해!
+    myQuiz = Quiz()
     random_quiz = random.randrange(0, len(QuizList))
     
     while menu:
@@ -119,28 +144,26 @@ def mainmenu():
             if event.type == pygame.MOUSEBUTTONDOWN:
                 print(event.pos[0], event.pos[1])
                 if rect_O.collidepoint(event.pos) and QuizList[random_quiz][1] == "True":
-                    point, quiz_no, rara_face = AnswerCorrect(point, quiz_no)
-                    random_quiz = random.randrange(0, len(QuizList))
-                    
+                    myQuiz.AnswerCorrect(random_quiz)
+                    random_quiz = myQuiz.AnswerReturn()
                     
                 elif rect_X.collidepoint(event.pos) and QuizList[random_quiz][1] == "False":
-                    point, quiz_no, rara_face = AnswerCorrect(point, quiz_no)
-                    random_quiz = random.randrange(0, len(QuizList))
+                    myQuiz.AnswerCorrect(random_quiz)
+                    random_quiz = myQuiz.AnswerReturn()
                     
                 elif rect_O.collidepoint(event.pos) and QuizList[random_quiz][1] == "False":
-                    point, quiz_no, rara_face = AnswerIncorrect(point, quiz_no)
-                    random_quiz = random.randrange(0, len(QuizList))
-                    # pygame.time.delay(1000)
+                    myQuiz.AnswerIncorrect(random_quiz)
+                    random_quiz = myQuiz.AnswerReturn()
                     
                 elif rect_X.collidepoint(event.pos) and QuizList[random_quiz][1] == "True":
-                    point, quiz_no, rara_face = AnswerIncorrect(point, quiz_no)
-                    random_quiz = random.randrange(0, len(QuizList))
-                    # pygame.time.delay(1000)
-                    # random_quiz , rara_face = AnswerReturn()
-            
+                    myQuiz.AnswerIncorrect(random_quiz)
+                    random_quiz = myQuiz.AnswerReturn()
+                    
         Quiz_content = Quiz_text.render(QuizList[random_quiz][0], True, (0, 0, 0))
-        point_content = point_text.render("Point : " + str(point), True, (0, 0, 0))
-        quiz_no_content = quiz_no_text.render("No : " + str(quiz_no), True, (0, 0, 0))
+        QuizAnswer_content = QuizAnswer_text.render(myQuiz.getQuizAnswer(), True, (0, 0, 0))
+        point_content = point_text.render("Point : " + str(myQuiz.getPoint()), True, (0, 0, 0))
+        quiz_no_content = quiz_no_text.render("No : " + str(myQuiz.getQuizNo()), True, (0, 0, 0))
+        rara_face_content = myQuiz.getRaraface()
         
         gameDisplay.fill(white)
         gameDisplay.blit(OImg, (x_pos_O, y_pos_O))
@@ -148,9 +171,9 @@ def mainmenu():
         gameDisplay.blit(Quiz_content, (display_width / 2 - 200 , 100))
         gameDisplay.blit(point_content, (10 , 10))
         gameDisplay.blit(quiz_no_content, (10, 40))
-        gameDisplay.blit(rara_face, (0, display_height - rara_height))
+        gameDisplay.blit(rara_face_content, (0, display_height - rara_height))
+        gameDisplay.blit(QuizAnswer_content, (0, display_height - rara_height - 50)) 
         
         pygame.display.update()
-        
         
 mainmenu()
