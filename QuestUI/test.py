@@ -17,13 +17,34 @@ pygame.display.set_caption("퀴즈 UI 제작")
 # o,x, 표정 저장, rect 가져오기
 OImg = pygame.image.load("QuestUI/image/o.png")
 XImg = pygame.image.load("QuestUI/image/x.png")
-rara = pygame.image.load("QuestUI/image/rara.png")
-correct_rara = pygame.image.load("QuestUI/image/correct_rara.png")
-incorrect_rara = pygame.image.load("QuestUI/image/incorrect_rara.png")
+# rara = pygame.image.load("QuestUI/image/rara.png")
+# correct_rara = pygame.image.load("QuestUI/image/correct_rara.png")
+# incorrect_rara = pygame.image.load("QuestUI/image/incorrect_rara.png")
+# hoyoung = pygame.image.load("QuestUI/image/hoyoung.png")
+# correct_hoyoung = pygame.image.load("QuestUI/image/correct_hoyoung.png")
+# incoorect_hoyoung = pygame.image.load("QuestUI/image/incorrect_hoyoung.png")
+
+# 0. 보통, 1. 문제 맞춤, 2. 문제 틀림 으로 딕셔너리 만듬
+rara = {
+    0 : pygame.image.load("QuestUI/image/rara.png"),
+    1 : pygame.image.load("QuestUI/image/correct_rara.png"),
+    2 : pygame.image.load("QuestUI/image/incorrect_rara.png")
+}
+hoyoung = {
+    0 : pygame.image.load("QuestUI/image/hoyoung.png"),
+    1 : pygame.image.load("QuestUI/image/correct_hoyoung.png"),
+    2 : pygame.image.load("QuestUI/image/incorrect_hoyoung.png")
+}
+
 
 OImg_width = OImg.get_size()[0]
 XImg_width = XImg.get_size()[0]
-rara_height = rara.get_size()[1]
+
+rara_width = rara[0].get_size()[0]
+rara_height = rara[0].get_size()[1]
+
+hoyoung_width = hoyoung[0].get_size()[0]
+hoyoung_height = hoyoung[0].get_size()[1]
 
 # o, x의 위치 설정
 x_pos_O = display_width / 2 - OImg_width * 2
@@ -41,12 +62,14 @@ rect_X.left = x_pos_X
 rect_X.top = y_pos_X
 
 # 퀴즈, 그에 따른 정답 텍스트 설정
-History_Quiz = pygame.font.Font('QuestUI/image/Maplestory Light.ttf', 130)
-History_QuizAnswer = pygame.font.Font('QuestUI/image/Maplestory Light.ttf', 50)
+Grammar_QuizText = pygame.font.Font('QuestUI/image/Maplestory Light.ttf', 130)
+grammar_QuizAnswer = pygame.font.Font('QuestUI/image/Maplestory Light.ttf', 50)
 
-CommonSense_Quiz = pygame.font.Font('QuestUI/image/Maplestory Light.ttf', 130)
+CommonSense_QuizText = pygame.font.Font('QuestUI/image/Maplestory Light.ttf', 130)
 CommonSense_QuizAnswer = pygame.font.Font('QuestUI/image/Maplestory Light.ttf', 50)
-History_QuizList = (
+
+# Grammar
+Grammar_QuizList = (
                 ["뚝배기", True, "뚝배기"], 
                 ["위쪽", True, "위쪽"], 
                 ["미숫가루", True, "미숫가루"],
@@ -78,20 +101,20 @@ History_QuizList = (
                 ["콧베기", False, "코빼기"],
                 ["깨끗히", False, "깨끗이"],
                 ["분명이", False, "분명히"],
-            )
+)
 
-
+# CommonSense
 CommonSense_QuizList = (
-    ["꿀벌은 꽃에서 꿀을 채취한다. 그러므로 꽃의 꿀과 꿀벌의 꿀은 똑같다.", False]
-    ["통조림을 최초로 생각한 사람은 프랑스의 황제 나폴레옹이다.", True]
-    ["달팽이도 이빨이 있다.", True]
-    ["투명인간은 장님이다.", True]
-    ["프랑스에서는 버섯을 따는데 돼지를 이용한다 ", True]
-    ["세계 최초의 접는 부채는 일본에서 만들어졌다.", False]
-    ["고기를 많이 먹으면 방귀 냄새도 더 독하다.", True]
-    ["큰 충격을 받으면 하룻밤 사이에 머리가 하얗게 변한다.", False]
-    ["세계최초로 일기예보를 시작한 나라는 영국이다. ", False]
-    ["하늘은 땅에서도 지구 밖에서도 항상 푸르게 보인다.", False]
+                ["꿀벌은 꽃에서 꿀을 채취한다. 그러므로 꽃의 꿀과 꿀벌의 꿀은 똑같다.", False], 
+                ["통조림을 최초로 생각한 사람은 프랑스의 황제 나폴레옹이다.", True],
+                ["달팽이도 이빨이 있다.", True],
+                ["투명인간은 장님이다.", True],
+                ["프랑스에서는 버섯을 따는데 돼지를 이용한다 ", True],
+                ["세계 최초의 접는 부채는 일본에서 만들어졌다.", False],
+                ["고기를 많이 먹으면 방귀 냄새도 더 독하다.", True],
+                ["큰 충격을 받으면 하룻밤 사이에 머리가 하얗게 변한다.", False],
+                ["세계최초로 일기예보를 시작한 나라는 영국이다. ", False],
+                ["하늘은 땅에서도 지구 밖에서도 항상 푸르게 보인다.", False],
 )
     
 # 점수와 문제 수 텍스트 설정하기
@@ -100,14 +123,30 @@ quiz_no_text = pygame.font.Font('QuestUI/image/Maplestory Light.ttf', 30)
 
 clock = pygame.time.Clock()
 
-## History_Quiz 클래스 작성
-class History_Quiz:
-    def __init__(self, point = 0, quiz_no = 1, rara_face = rara, quizAnswer = " ", random_quiz = random.randrange(0, len(History_QuizList))):
+## 버튼 만들기
+class StartButton:
+    def __init__(self, img_in, x, y, width, height, img_act, x_act, y_act, action = None, kind = None):
+        mouse = pygame.mouse.get_pos() # 마우스 좌표 저장
+        click = pygame.mouse.get_pressed() # 클릭시 실행
+        if x + width > mouse[0] > x and y + height > mouse[1] > y: # 마우스가 이미지 안에 있으면
+            gameDisplay.blit(img_act, (x_act, y_act))
+            if click[0] and action != None:
+                time.sleep(1)
+                action(kind) # 지정 함수 호출
+        else:
+            gameDisplay.blit(img_in,(x, y))
+                
+## Quiz 클래스 작성
+class Quiz_play:
+    def __init__(self, face, random_quiz, kind, List, point = 0, quiz_no = 1, quizAnswer = " "):
         self.__point = point # 점수
-        self.__quiz_no = quiz_no # 문제 수               
-        self.__rara_face = rara_face # 표정 관리해!
+        self.__quiz_no = quiz_no # 문제 수
+        self.__faceDic = face  # 표정 딕셔너리 들고 와서        
+        self.__face = self.__faceDic[0] # 표정 설정
+        self.__kind = kind
         self.__quizAnswer = quizAnswer
         self.__random_quiz = random_quiz
+        self.__List = List
     
     # 접근자 설정    
     def getPoint(self):
@@ -116,8 +155,11 @@ class History_Quiz:
     def getQuizNo(self):
         return self.__quiz_no
     
-    def getRaraface(self):
-        return self.__rara_face
+    def getface(self):
+        return self.__face
+    
+    def getKind(self):
+        return self.__kind
     
     def getQuizAnswer(self):
         return self.__quizAnswer
@@ -129,23 +171,33 @@ class History_Quiz:
     def AnswerCorrect(self, random_quiz):
         self.__point += 1
         self.__quiz_no += 1
-        self.__rara_face = correct_rara
-        self.__quizAnswer = "정답입니다!" + " 답은 " + History_QuizList[random_quiz][2] + "입니다!"
+        self.__face = self.__faceDic[1]
+        if self.__kind == "Grammar":
+            self.__quizAnswer = "정답입니다!" + " 답은 " + self.__List[random_quiz][2] + "입니다!"
+        elif self.__kind == "CommonSense":
+            self.__quizAnswer = "정답입니다!"
         print("맞추셨습니다.")
+        Quiz_play.AnswerReset(self)
 
     def AnswerIncorrect(self, random_quiz):
         self.__point -= 1
         self.__quiz_no += 1
-        self.__rara_face = incorrect_rara
-        self.__quizAnswer = "오답입니다!" + " 답은 " + History_QuizList[random_quiz][2] + "입니다!"
+        self.__face = self.__faceDic[2]
+        if self.__kind == "Grammar":
+            self.__quizAnswer = "오답입니다!" + " 답은 " + self.__List[random_quiz][2] + "입니다!"
+        elif self.__kind == "CommonSense":
+            self.__quizAnswer = "오답입니다!"
         print("틀리셨습니다.")
-
-    # 약간의 딜레이 후 원래대로 돌아감
-    def AnswerReturn(self):
-        self.__random_quiz = random.randrange(0, len(History_QuizList))
+        
+    def AnswerReset(self):
+        self.__face = self.__faceDic[0]
+        self.__random_quiz = random.randrange(0, len(self.__List))
         return self.__random_quiz
 
+
+    
 def mainmenu():
+    
     mainmenu = True
     while mainmenu:
         dt = clock.tick(30)
@@ -154,14 +206,32 @@ def mainmenu():
             if event.type == pygame.QUIT:
                 pygame.quit()
                 
+        gameDisplay.fill(white)
+        
+        raraButton = StartButton(rara[0], 445, 260, rara_width, rara_height, rara[1], 445, 260, quiz_screen, "Grammar");
+        
+        hoyoungButton = StartButton(hoyoung[0], 280, 260, hoyoung_width, hoyoung_height, hoyoung[1], 280, 260, quiz_screen, "CommonSense")
+        
+        pygame.display.update()
+        clock.tick(15)
+
     
+def quiz_screen(kind):
     
-def History():
-    quiz = True
+    quiz = False
     
-    myQuiz = History_Quiz()
-    random_quiz = random.randrange(0, len(History_QuizList))
-    
+    if(kind == "Grammar"):
+        quiz = True
+        List = Grammar_QuizList
+        random_quiz = random.randrange(0, len(List))
+        myQuiz = Quiz_play(rara, random_quiz, kind, List)
+        
+    elif(kind == "CommonSense"):
+        quiz = True
+        List = CommonSense_QuizList
+        random_quiz = random.randrange(0, len(List))
+        myQuiz = Quiz_play(hoyoung, random_quiz, kind, List)
+
     while quiz:
         dt = clock.tick(30)
         
@@ -171,27 +241,23 @@ def History():
                 
             if event.type == pygame.MOUSEBUTTONDOWN:
                 print(event.pos[0], event.pos[1])
-                if rect_O.collidepoint(event.pos) and History_QuizList[random_quiz][1] == True:
+                if rect_O.collidepoint(event.pos) and List[random_quiz][1] == True:
                     myQuiz.AnswerCorrect(random_quiz)
-                    random_quiz = myQuiz.AnswerReturn()
                     
-                elif rect_X.collidepoint(event.pos) and History_QuizList[random_quiz][1] == False:
+                elif rect_X.collidepoint(event.pos) and List[random_quiz][1] == False:
                     myQuiz.AnswerCorrect(random_quiz)
-                    random_quiz = myQuiz.AnswerReturn()
                     
-                elif rect_O.collidepoint(event.pos) and History_QuizList[random_quiz][1] == False:
+                elif rect_O.collidepoint(event.pos) and List[random_quiz][1] == False:
                     myQuiz.AnswerIncorrect(random_quiz)
-                    random_quiz = myQuiz.AnswerReturn()
                     
-                elif rect_X.collidepoint(event.pos) and History_QuizList[random_quiz][1] == True:
+                elif rect_X.collidepoint(event.pos) and List[random_quiz][1] == True:
                     myQuiz.AnswerIncorrect(random_quiz)
-                    random_quiz = myQuiz.AnswerReturn()
                     
-        Quiz_content = History_Quiz.render(History_QuizList[random_quiz][0], True, (0, 0, 0))
-        QuizAnswer_content = History_QuizAnswer.render(myQuiz.getQuizAnswer(), True, (0, 0, 0))
+        Quiz_content = Grammar_QuizText.render(List[random_quiz][0], True, (0, 0, 0))
+        QuizAnswer_content = grammar_QuizAnswer.render(myQuiz.getQuizAnswer(), True, (0, 0, 0))
         point_content = point_text.render("Point : " + str(myQuiz.getPoint()), True, (0, 0, 0))
         quiz_no_content = quiz_no_text.render("No : " + str(myQuiz.getQuizNo()), True, (0, 0, 0))
-        rara_face_content = myQuiz.getRaraface()
+        face_content = myQuiz.getface()
         
         gameDisplay.fill(white)
         gameDisplay.blit(OImg, (x_pos_O, y_pos_O))
@@ -199,7 +265,7 @@ def History():
         gameDisplay.blit(Quiz_content, (display_width / 2 - 200 , 100))
         gameDisplay.blit(point_content, (10 , 10))
         gameDisplay.blit(quiz_no_content, (10, 40))
-        gameDisplay.blit(rara_face_content, (0, display_height - rara_height))
+        gameDisplay.blit(face_content, (0, display_height - rara_height))
         gameDisplay.blit(QuizAnswer_content, (0, display_height - rara_height - 50)) 
         
         pygame.display.update()
