@@ -190,7 +190,7 @@ class Quiz_play:
         print("틀리셨습니다.")
         
     def AnswerReset(self):
-        self.__face = self.__faceDic[0]
+        # self.__face = self.__faceDic[0]
         self.__random_quiz = random.randrange(0, len(self.__List))
         return self.__random_quiz
 
@@ -243,15 +243,19 @@ def quiz_screen(kind):
                 print(event.pos[0], event.pos[1])
                 if rect_O.collidepoint(event.pos) and List[random_quiz][1] == True:
                     myQuiz.AnswerCorrect(random_quiz)
+                    random_quiz = myQuiz.AnswerReset()
                     
                 elif rect_X.collidepoint(event.pos) and List[random_quiz][1] == False:
                     myQuiz.AnswerCorrect(random_quiz)
+                    random_quiz = myQuiz.AnswerReset()
                     
                 elif rect_O.collidepoint(event.pos) and List[random_quiz][1] == False:
                     myQuiz.AnswerIncorrect(random_quiz)
+                    random_quiz = myQuiz.AnswerReset()
                     
                 elif rect_X.collidepoint(event.pos) and List[random_quiz][1] == True:
                     myQuiz.AnswerIncorrect(random_quiz)
+                    random_quiz = myQuiz.AnswerReset()
                     
         Quiz_content = Grammar_QuizText.render(List[random_quiz][0], True, (0, 0, 0))
         QuizAnswer_content = grammar_QuizAnswer.render(myQuiz.getQuizAnswer(), True, (0, 0, 0))
