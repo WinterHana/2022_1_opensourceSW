@@ -32,7 +32,8 @@ class Quiz_Window:
         self.FontSize = FontSize
         # 퀴즈 답 출력 용 변수
         self.Answer = " "
-        
+    
+    # 퀴즈 창 만듬
     def makeQuizWindow(self):
         # 버튼 출력
         self.OXButton_group = pygame.sprite.Group()
@@ -54,7 +55,8 @@ class Quiz_Window:
         
         # 틀 출력
         pygame.draw.rect(self.screen, Red, (self.DisplayWidth / 2 - self.width / 2, self.margin, self.width, self.height), 5)
-        
+    
+    # 퀴즈의 정답 유무 확인    
     def QuizManager(self):
         if self.OButton.getClick() == True and self.List[self.random_quiz][1] == True:
             self.Answer = self.List[self.random_quiz][0] + " 정답"
@@ -62,12 +64,12 @@ class Quiz_Window:
             self.random_quiz = self.Quiz_play.AnswerReset()
             
         elif self.OButton.getClick() == True and self.List[self.random_quiz][1] == False:
-            self.Answer = self.List[self.random_quiz][0] + " 정답"
+            self.Answer = self.List[self.random_quiz][0] + " 오답"
             self.Quiz_play.AnswerIncorrect()
             self.random_quiz = self.Quiz_play.AnswerReset()   
             
         elif self.XButton.getClick() == True and self.List[self.random_quiz][1] == False:
-            self.Answer = self.List[self.random_quiz][0] + " 오답"
+            self.Answer = self.List[self.random_quiz][0] + " 정답"
             self.Quiz_play.AnswerCorrect()
             self.random_quiz = self.Quiz_play.AnswerReset()
         
@@ -75,3 +77,7 @@ class Quiz_Window:
             self.Answer = self.List[self.random_quiz][0] + " 오답"
             self.Quiz_play.AnswerIncorrect()
             self.random_quiz = self.Quiz_play.AnswerReset()
+    
+    # 소멸자
+    def __del__(self):
+        print("객체가 소멸됩니다.")

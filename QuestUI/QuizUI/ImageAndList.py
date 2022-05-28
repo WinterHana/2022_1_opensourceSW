@@ -13,8 +13,8 @@ Blue = (0, 0, 255)
 FPS = 30
 
 # 회면 크기 및 타이틀 설정
-display_width = 1300 # 가로 길이
-display_height = 600 # 세로 길이
+display_width = 400 * 1.61 # 가로 길이
+display_height = 400 # 세로 길이
 gameDisplay = pygame.display.set_mode((display_width, display_height))
 pygame.display.set_caption("퀴즈 UI 제작")
 
