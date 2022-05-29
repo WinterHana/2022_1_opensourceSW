@@ -23,10 +23,16 @@ class Quiz_Window:
         # 랜덤 퀴즈 번호
         self.random_quiz = random.randrange(0, len(self.List))
         # ox 버튼 위치, 퀴즈 내용, 답 내용 위치 설정
-        self.OButton_pos = (self.DisplayWidth / 2 - self.margin * 3, self.margin + self.height / 2)
-        self.XButton_pos = (self.DisplayWidth / 2 + self.margin, self.margin + self.height / 2)
-        self.Quiz_pos = (self.DisplayWidth / 2 - self.width / 2 + self.margin , self.margin)
-        self.Answer_pos = (self.DisplayWidth / 2 - self.width / 2 + self.margin, self.margin + self.height)
+        # self.OButton_pos = (self.DisplayWidth / 2 - self.margin * 3, self.margin + self.height / 2)
+        # self.XButton_pos = (self.DisplayWidth / 2 + self.margin, self.margin + self.height / 2)
+        # self.Quiz_pos = (self.DisplayWidth / 2 - self.width / 2 + self.margin , self.margin)
+        # self.Answer_pos = (self.DisplayWidth / 2 - self.width / 2 + self.margin, self.margin + self.height)
+        # self.rect_pos = (self.DisplayWidth / 2 - self.width / 2, self.margin, self.width, self.height)
+        self.OButton_pos = (0, 0)
+        self.XButton_pos = (0, 0)
+        self.Quiz_pos = (0 , 0)
+        self.Answer_pos = (0, 0)
+        self.rect_pos = (0, 0, 100, 100)
         # Quiz_play 객체 설정
         self.Quiz_play = Quiz_play(self.random_quiz, self.List)
         # 퀴즈 내용 폰트 크기 설정
@@ -37,7 +43,7 @@ class Quiz_Window:
     # 퀴즈 창 만듬
     def makeQuizWindow(self):
         # 틀 출력
-        pygame.draw.rect(self.screen, White, (self.DisplayWidth / 2 - self.width / 2, self.margin, self.width, self.height))
+        pygame.draw.rect(self.screen, White, self.rect_pos)
         
         # 버튼 출력
         self.OXButton_group = pygame.sprite.Group()
@@ -45,15 +51,15 @@ class Quiz_Window:
         self.XButton = OXButton(OX_List[3], OX_List[1], self.XButton_pos)
         self.OXButton_group.add(self.OButton)
         self.OXButton_group.add(self.XButton)
-        self.OXButton_group.draw(gameDisplay)
+        self.OXButton_group.draw(self.screen)
         
         # 퀴즈 내용 출력
-        QuizText = pygame.font.Font('QuestUI/image/Maplestory Light.ttf', self.FontSize)
+        QuizText = pygame.font.Font('MainGame/QuizImage/Maplestory Light.ttf', self.FontSize)
         Quiz_content = QuizText.render(self.List[self.random_quiz][0], True, (0, 0, 0))
         self.screen.blit(Quiz_content, self.Quiz_pos)
         
         # 퀴즈 답 출력
-        AnswerText = pygame.font.Font('QuestUI/image/Maplestory Light.ttf', ANSWERQUIZ_SIZE)
+        AnswerText = pygame.font.Font('MainGame/QuizImage/Maplestory Light.ttf', ANSWERQUIZ_SIZE)
         Answer_content = AnswerText.render(self.Answer, True, (0, 0, 0))
         self.screen.blit(Answer_content, self.Answer_pos)
     

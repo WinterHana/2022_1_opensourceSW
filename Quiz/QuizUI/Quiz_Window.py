@@ -45,7 +45,7 @@ class Quiz_Window:
         self.XButton = OXButton(OX_List[3], OX_List[1], self.XButton_pos)
         self.OXButton_group.add(self.OButton)
         self.OXButton_group.add(self.XButton)
-        self.OXButton_group.draw(gameDisplay)
+        self.OXButton_group.draw(self.screen)
         
         # 퀴즈 내용 출력
         QuizText = pygame.font.Font('QuestUI/image/Maplestory Light.ttf', self.FontSize)

@@ -1,8 +1,11 @@
 from scripts import *
 from QuizUI import *
 
+myWindow = Quiz_Window(CANVAS, 1500, 600, GRAMMARQUIZ_SIZE, Grammar_QuizList)
+
 # main loop
 while True:
+    
     # checking for events
     for e in pygame.event.get():
         if (e.type is pygame.QUIT):
@@ -11,7 +14,10 @@ while True:
     
     # clearing canvas
     CANVAS.fill((35, 35, 35))
-
+    
+    myWindow.makeQuizWindow()
+    myWindow.QuizManager()
+    
     # drawing environments
     # LEVEL.draw(CANVAS) 
 
