@@ -10,10 +10,10 @@ from .Quiz_play import *
 
 class Quiz_Window:
     # 전시할 스크린 / 스크린의 크기 , 폰트 사이즈, count, 퀴즈 리스트
-    def __init__(self, screen, screen_size, Max_count, FontSize, List = None):
+    def __init__(self, screen, screen_size, Max_count, FontSize, width_scale = 1, List = None):
         # 창 크기
         self.height = 300
-        self.width = self.height * 1.61
+        self.width = self.height * 2 * width_scale
         self.DisplayWidth = screen_size[0]
         self.DisplayHeight = screen_size[1]
         # 전시할 화면 저장
@@ -59,21 +59,20 @@ class Quiz_Window:
         self.OXButton_group.draw(self.screen)
         
         # 퀴즈 내용 출력
-        QuizText = pygame.font.Font('MainGame/QuizImage/Maplestory Light.ttf', int(self.FontSize))
-        Quiz_content = QuizText.render(self.List[self.random_quiz][0], True, (0, 0, 0))
-        self.screen.blit(Quiz_content, self.Quiz_pos)
+        self.QuizText = pygame.font.Font('MainGame/QuizImage/Maplestory Light.ttf', int(self.FontSize))
+        self.Quiz_content = self.QuizText.render(self.List[self.random_quiz][0], True, (0, 0, 0))
+        self.screen.blit(self.Quiz_content, self.Quiz_pos)
         
         # 퀴즈 답 출력
-        AnswerText = pygame.font.Font('MainGame/QuizImage/Maplestory Light.ttf', ANSWERQUIZ_SIZE)
-        Answer_content = AnswerText.render(self.Answer, True, (0, 0, 0))
-        self.screen.blit(Answer_content, self.Answer_pos)
+        self.AnswerText = pygame.font.Font('MainGame/QuizImage/Maplestory Light.ttf', ANSWERQUIZ_SIZE)
+        self.Answer_content = self.AnswerText.render(self.Answer, True, (0, 0, 0))
+        self.screen.blit(self.Answer_content, self.Answer_pos)
     
         
     # 퀴즈의 정답 유무 확인    
     def QuizManager(self):
-        
         if self.OButton.getClick() == True and self.List[self.random_quiz][1] == True:
-            self.Answer = self.List[self.random_quiz][0] + " 정답"
+            self.Answer = "정답!"
             self.Quiz_play.AnswerCorrect()
             self.random_quiz = self.Quiz_play.AnswerReset()
             self.Count += 1
@@ -81,16 +80,15 @@ class Quiz_Window:
             print(self.Max_Count)
             
         elif self.OButton.getClick() == True and self.List[self.random_quiz][1] == False:
-            self.Answer = self.List[self.random_quiz][0] + " 오답"
+            self.Answer =  "오답!"
             self.Quiz_play.AnswerIncorrect()
             self.random_quiz = self.Quiz_play.AnswerReset()
-            PLAYER.sprite.hp -= 10
             self.Count += 1
             print(self.Count)
             print(self.Max_Count)
             
         elif self.XButton.getClick() == True and self.List[self.random_quiz][1] == False:
-            self.Answer = self.List[self.random_quiz][0] + " 정답"
+            self.Answer = "정답!"
             self.Quiz_play.AnswerCorrect()
             self.random_quiz = self.Quiz_play.AnswerReset()
             self.Count += 1
@@ -98,10 +96,9 @@ class Quiz_Window:
             print(self.Max_Count)
         
         elif self.XButton.getClick() == True and self.List[self.random_quiz][1] == True:
-            self.Answer = self.List[self.random_quiz][0] + " 오답"
+            self.Answer = "오답!"
             self.Quiz_play.AnswerIncorrect()
             self.random_quiz = self.Quiz_play.AnswerReset()
-            PLAYER.sprite.hp -= 10
             self.Count += 1
             print(self.Count)
             print(self.Max_Count)
@@ -115,3 +112,11 @@ class Quiz_Window:
     
     def getPlayQuiz(self):
         return self.PlayQuiz
+    
+    def gameover(self):
+        del self.OButton
+        del self.XButton
+        pygame.draw.rect(self.screen, White, self.rect_pos)
+        self.GameOverText = pygame.font.Font('MainGame/QuizImage/Maplestory Light.ttf', 50)
+        self.Quiz_content = self.GameOverText.render("게임에서 졌습니다...", True, (0, 0, 0))
+        
