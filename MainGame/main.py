@@ -1,4 +1,7 @@
 from scripts import *
+from QuizUI import *
+
+myWindow = Quiz_Window(DISPLAY, (DISPLAY_SIZE.x, DISPLAY_SIZE.y), GRAMMARQUIZ_SIZE, Grammar_QuizList)
 
 # main loop
 while True:
@@ -7,10 +10,10 @@ while True:
         if (e.type is pygame.QUIT):
             pygame.quit()
             sys.exit()
-
+    
     # clearing canvas
     CANVAS.fill((135, 175, 75))
-
+    
     # drawing environments
     # LEVEL.draw(CANVAS)
 
@@ -24,6 +27,11 @@ while True:
 
     # showing canvas on display
     DISPLAY.blit(pygame.transform.scale(CANVAS, tuple(DISPLAY_SIZE)), (0, 0))
+    
+    # QuizWindow
+    myWindow.makeQuizWindow()
+    myWindow.QuizManager()
+    
     # showing canvas
     if (DEBUG):
         pygame.draw.rect(CANVAS, "white", CANVAS.get_rect(), 1)

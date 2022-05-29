@@ -8,12 +8,12 @@ from .Quiz_play import *
 
 class Quiz_Window:
     # 전시할 스크린 / 스크린의 크기 , 폰트 사이즈, 퀴즈 리스트
-    def __init__(self, screen, DisplayWidth, DisplayHeight, FontSize, List = None):
+    def __init__(self, screen, screen_size, FontSize, List = None):
         # 창 크기
         self.height = 300
         self.width = self.height * 1.61
-        self.DisplayWidth = DisplayWidth
-        self.DisplayHeight = DisplayHeight
+        self.DisplayWidth = screen_size[0]
+        self.DisplayHeight = screen_size[1]
         # 전시할 화면 저장
         self.screen = screen
         # 퀴즈 리스트 저장
@@ -23,16 +23,16 @@ class Quiz_Window:
         # 랜덤 퀴즈 번호
         self.random_quiz = random.randrange(0, len(self.List))
         # ox 버튼 위치, 퀴즈 내용, 답 내용 위치 설정
-        # self.OButton_pos = (self.DisplayWidth / 2 - self.margin * 3, self.margin + self.height / 2)
-        # self.XButton_pos = (self.DisplayWidth / 2 + self.margin, self.margin + self.height / 2)
-        # self.Quiz_pos = (self.DisplayWidth / 2 - self.width / 2 + self.margin , self.margin)
-        # self.Answer_pos = (self.DisplayWidth / 2 - self.width / 2 + self.margin, self.margin + self.height)
-        # self.rect_pos = (self.DisplayWidth / 2 - self.width / 2, self.margin, self.width, self.height)
-        self.OButton_pos = (0, 0)
-        self.XButton_pos = (0, 0)
-        self.Quiz_pos = (0 , 0)
-        self.Answer_pos = (0, 0)
-        self.rect_pos = (0, 0, 100, 100)
+        self.OButton_pos = (self.DisplayWidth / 2 - self.margin * 3, self.margin + self.height / 2)
+        self.XButton_pos = (self.DisplayWidth / 2 + self.margin, self.margin + self.height / 2)
+        self.Quiz_pos = (self.DisplayWidth / 2 - self.width / 2 + self.margin , self.margin)
+        self.Answer_pos = (self.DisplayWidth / 2 - self.width / 2 + self.margin, self.margin + self.height)
+        self.rect_pos = (self.DisplayWidth / 2 - self.width / 2, self.margin, self.width, self.height)
+        # self.OButton_pos = (0, 0)
+        # self.XButton_pos = (0, 0)
+        # self.Quiz_pos = (0 , 0)
+        # self.Answer_pos = (0, 0)
+        # self.rect_pos = (0, 0, 100, 100)
         # Quiz_play 객체 설정
         self.Quiz_play = Quiz_play(self.random_quiz, self.List)
         # 퀴즈 내용 폰트 크기 설정
@@ -54,7 +54,7 @@ class Quiz_Window:
         self.OXButton_group.draw(self.screen)
         
         # 퀴즈 내용 출력
-        QuizText = pygame.font.Font('MainGame/QuizImage/Maplestory Light.ttf', self.FontSize)
+        QuizText = pygame.font.Font('MainGame/QuizImage/Maplestory Light.ttf', int(self.FontSize))
         Quiz_content = QuizText.render(self.List[self.random_quiz][0], True, (0, 0, 0))
         self.screen.blit(Quiz_content, self.Quiz_pos)
         
