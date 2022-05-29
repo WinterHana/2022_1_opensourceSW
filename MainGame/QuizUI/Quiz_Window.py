@@ -1,7 +1,7 @@
 from tkinter import Button
 import pygame
 import random
-
+import sys
 from scripts import *
 
 from .ImageAndList import *
@@ -29,6 +29,7 @@ class Quiz_Window:
         self.XButton_pos = (self.DisplayWidth / 2 + self.margin, self.margin + self.height / 2)
         self.Quiz_pos = (self.DisplayWidth / 2 - self.width / 2 + self.margin , self.margin)
         self.Answer_pos = (self.DisplayWidth / 2 - self.width / 2 + self.margin, self.margin + self.height)
+        self.Quiz_count_pos = (self.DisplayWidth / 2 + self.margin * 2, self.margin + self.height)
         self.rect_pos = (self.DisplayWidth / 2 - self.width / 2, self.margin, self.width, self.height)
         
         # 퀴즈 개수 설정
@@ -65,9 +66,14 @@ class Quiz_Window:
         
         # 퀴즈 답 출력
         self.AnswerText = pygame.font.Font('MainGame/QuizImage/Maplestory Light.ttf', ANSWERQUIZ_SIZE)
-        self.Answer_content = self.AnswerText.render(self.Answer, True, (0, 0, 0))
+        self.Answer_content = self.AnswerText.render(self.Answer, True, (255, 0, 0))
         self.screen.blit(self.Answer_content, self.Answer_pos)
-    
+        
+        # 퀴즈 개수 출력
+        self.Quiz_countText = pygame.font.Font('MainGame/QuizImage/Maplestory Light.ttf', ANSWERQUIZ_SIZE)
+        content = str(self.Count) + " / " + str(self.Max_Count)
+        self.Quiz_count_content = self.AnswerText.render(str(content), True, (255, 0, 0))
+        self.screen.blit(self.Quiz_count_content, self.Quiz_count_pos)
         
     # 퀴즈의 정답 유무 확인    
     def QuizManager(self):
@@ -76,32 +82,24 @@ class Quiz_Window:
             self.Quiz_play.AnswerCorrect()
             self.random_quiz = self.Quiz_play.AnswerReset()
             self.Count += 1
-            print(self.Count)
-            print(self.Max_Count)
             
         elif self.OButton.getClick() == True and self.List[self.random_quiz][1] == False:
-            self.Answer =  "오답!"
+            self.Answer =  "오답! (HP -10)"
             self.Quiz_play.AnswerIncorrect()
             self.random_quiz = self.Quiz_play.AnswerReset()
             self.Count += 1
-            print(self.Count)
-            print(self.Max_Count)
             
         elif self.XButton.getClick() == True and self.List[self.random_quiz][1] == False:
             self.Answer = "정답!"
             self.Quiz_play.AnswerCorrect()
             self.random_quiz = self.Quiz_play.AnswerReset()
             self.Count += 1
-            print(self.Count)
-            print(self.Max_Count)
         
         elif self.XButton.getClick() == True and self.List[self.random_quiz][1] == True:
-            self.Answer = "오답!"
+            self.Answer = "오답! (HP -10)"
             self.Quiz_play.AnswerIncorrect()
             self.random_quiz = self.Quiz_play.AnswerReset()
             self.Count += 1
-            print(self.Count)
-            print(self.Max_Count)
         
         if self.Count == self.Max_Count:
             self.PlayQuiz = False
@@ -113,9 +111,27 @@ class Quiz_Window:
     def getPlayQuiz(self):
         return self.PlayQuiz
     
-    def gameover(self):
+    def gameover(self, action):
         pygame.draw.rect(self.screen, White, self.rect_pos)
-        self.GameOverText = pygame.font.Font('MainGame/QuizImage/Maplestory Light.ttf', 50)
-        self.Quiz_content = self.GameOverText.render("게임에서 졌습니다...", True, (0, 0, 0))
+        
+        # 메시지 출력
+        self.GameOverText = pygame.font.Font('MainGame/QuizImage/Maplestory Light.ttf', 40)
+        self.Quiz_content = self.GameOverText.render("Gameover...다시 시작하시겠습니까?", True, (0, 0, 0))
         self.screen.blit(self.Quiz_content, self.Quiz_pos)
+        
+        # 리스타트 ox 버튼 > 위의 함수랑 분리하기 위해 self 제외
+        OXButton_group = pygame.sprite.Group()
+        OButton = OXButton(OX_List[2], OX_List[0], self.OButton_pos)
+        XButton = OXButton(OX_List[3], OX_List[1], self.XButton_pos)
+        OXButton_group.add(OButton)
+        OXButton_group.add(XButton)
+        OXButton_group.draw(self.screen)
+        
+        # o 누르면 처음부터(함수 지정) / x 누르면 끝내기
+        if OButton.getClick() == True:
+            action()
+            
+        elif XButton.getClick() == True:
+            pygame.quit()
+            sys.exit()
         

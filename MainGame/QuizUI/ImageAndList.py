@@ -1,6 +1,10 @@
+from colorama import Back
 import pygame
 
+from scripts import DISPLAY_SIZE
+
 from .Button import *
+from scripts import *
 
 pygame.init()
 
@@ -17,6 +21,10 @@ OImg = pygame.image.load("MainGame/QuizImage/o.png")
 XImg = pygame.image.load("MainGame/QuizImage/x.png")
 O_blueImg = pygame.image.load("MainGame/QuizImage/o_blue.png")
 X_blueImg = pygame.image.load("MainGame/QuizImage/x_blue.png")
+Back_1 = pygame.image.load("MainGame/QuizImage/back_1.jpg")
+Back_1 = pygame.transform.scale(Back_1, DISPLAY_SIZE)
+Back_2 = pygame.image.load("MainGame/QuizImage/back_2.jpg")
+Back_2 = pygame.transform.scale(Back_2, DISPLAY_SIZE)
 
 OX_List = [OImg, XImg, O_blueImg, X_blueImg]
 

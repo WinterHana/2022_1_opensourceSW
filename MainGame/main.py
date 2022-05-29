@@ -3,6 +3,8 @@ from QuizUI import *
 
 # 1. 단순하게 퀴즈 맞추기
 def Stage1(): 
+    pygame.init()
+    
     myWindow = Quiz_Window(DISPLAY, (DISPLAY_SIZE.x, DISPLAY_SIZE.y), 5, GRAMMARQUIZ_SIZE, 1, Grammar_QuizList)
     
     while True: 
@@ -11,7 +13,11 @@ def Stage1():
             if (e.type is pygame.QUIT):
                 pygame.quit()
                 sys.exit()
-                
+        # showing canvas on display
+        DISPLAY.blit(Back_1, (0, 0))  
+        DISPLAY.blit(pygame.transform.scale(CANVAS, tuple(DISPLAY_SIZE)), (0, 0))
+        
+           
         # clearing canvas
         CANVAS.fill((0, 0, 0, 0))  
         
@@ -25,9 +31,7 @@ def Stage1():
             pygame.Rect((CANVAS_SIZE.x*0//5, 0),
             ((CANVAS_SIZE.x*2//5)*(PLAYER.sprite.hp/PLAYER.sprite.max_hp), CANVAS_SIZE.y//20)))
         
-        # showing canvas on display
-        DISPLAY.fill((135, 175, 75))
-        DISPLAY.blit(pygame.transform.scale(CANVAS, tuple(DISPLAY_SIZE)), (0, 0))
+
         
         myWindow.makeQuizWindow()
         myWindow.QuizManager()
@@ -36,7 +40,7 @@ def Stage1():
             return
         
         if PLAYER.sprite.hp == 0:
-            myWindow.gameover()
+            myWindow.gameover(Stage1)
             
         # updating display
         pygame.display.flip()
@@ -53,7 +57,12 @@ def Stage2():
             if (e.type is pygame.QUIT):
                 pygame.quit()
                 sys.exit()
-            
+        # showing canvas on display
+        # DISPLAY.fill((135, 175, 75))
+        DISPLAY.blit(Back_2, (0, 0)) 
+        DISPLAY.blit(pygame.transform.scale(CANVAS, tuple(DISPLAY_SIZE)), (0, 0))
+       
+        
         # clearing canvas
         CANVAS.fill((0, 0, 0, 0))
             
@@ -86,10 +95,8 @@ def Stage2():
             pygame.Rect((CANVAS_SIZE.x*3//5, 0),
             ((CANVAS_SIZE.x*2//5)*(ENEMY.sprite.hp/ENEMY.sprite.max_hp), CANVAS_SIZE.y//20)))
 
-        # showing canvas on display
-        DISPLAY.fill((135, 175, 75))
-        DISPLAY.blit(pygame.transform.scale(CANVAS, tuple(DISPLAY_SIZE)), (0, 0))
-            
+
+        
         # showing canvas
         if (DEBUG):
             pygame.draw.rect(CANVAS, "white", CANVAS.get_rect(), 1)
@@ -103,7 +110,7 @@ def Stage2():
                 break
             
         if PLAYER.sprite.hp == 0:
-                myWindow.gameover()   
+                myWindow.gameover(Stage1)   
 
         # updating display
         pygame.display.flip()
