@@ -1,29 +1,22 @@
 from scripts import *
-from QuizUI import *
-
-myWindow = Quiz_Window(CANVAS, 1500, 600, GRAMMARQUIZ_SIZE, Grammar_QuizList)
 
 # main loop
 while True:
-    
     # checking for events
     for e in pygame.event.get():
         if (e.type is pygame.QUIT):
             pygame.quit()
             sys.exit()
-    
+
     # clearing canvas
-    CANVAS.fill((35, 35, 35))
-    
-    myWindow.makeQuizWindow()
-    myWindow.QuizManager()
-    
+    CANVAS.fill((135, 175, 75))
+
     # drawing environments
-    # LEVEL.draw(CANVAS) 
+    # LEVEL.draw(CANVAS)
 
     # drawing & updating enemies
-    # ENEMIES.draw(CANVAS)
-    # ENEMIES.update()
+    ENEMY.draw(CANVAS)
+    ENEMY.update(PLAYER.sprite)
 
     # drawing & updating player
     PLAYER.draw(CANVAS)
@@ -38,5 +31,5 @@ while True:
 
     # updating display
     pygame.display.flip()
-    pygame.display.set_caption(f"[Sejong Uni. Open Source Project]-[FPS : {CLOCK.get_fps():.2f}]")
+    pygame.display.set_caption(f"[{DESCRIPTION}]-[FPS : {CLOCK.get_fps():.2f}]")
     CLOCK.tick(FPS)
