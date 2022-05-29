@@ -10,7 +10,7 @@ Red = (255, 0, 0)
 Blue = (0, 0, 255)
 
 # FPS
-FPS = 30
+# FPS = 30
 
 # 회면 크기 및 타이틀 설정
 display_width = 400 * 1.61 # 가로 길이
@@ -27,17 +27,17 @@ X_blueImg = pygame.image.load("QuestUI/image/x_blue.png")
 OX_List = [OImg, XImg, O_blueImg, X_blueImg]
 
 # 0. 보통, 1. 문제 맞춤, 2. 문제 틀림 으로 딕셔너리 만듬
-rara = {
-    0 : pygame.image.load("QuestUI/image/rara.png"),
-    1 : pygame.image.load("QuestUI/image/correct_rara.png"),
-    2 : pygame.image.load("QuestUI/image/incorrect_rara.png")
-}
+# rara = {
+#     0 : pygame.image.load("QuestUI/image/rara.png"),
+#     1 : pygame.image.load("QuestUI/image/correct_rara.png"),
+#     2 : pygame.image.load("QuestUI/image/incorrect_rara.png")
+# }
 
-hoyoung = {
-    0 : pygame.image.load("QuestUI/image/hoyoung.png"),
-    1 : pygame.image.load("QuestUI/image/correct_hoyoung.png"),
-    2 : pygame.image.load("QuestUI/image/incorrect_hoyoung.png")
-}
+# hoyoung = {
+#     0 : pygame.image.load("QuestUI/image/hoyoung.png"),
+#     1 : pygame.image.load("QuestUI/image/correct_hoyoung.png"),
+#     2 : pygame.image.load("QuestUI/image/incorrect_hoyoung.png")
+# }
 
 
 OImg_width = OX_List[0].get_size()[0]
