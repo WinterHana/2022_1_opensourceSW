@@ -7,6 +7,7 @@ from .Button import *
 from .Quiz_play import *
 
 class Quiz_Window:
+    # 전시할 스크린 / 스크린의 크기 , 폰트 사이즈, 퀴즈 리스트
     def __init__(self, screen, DisplayWidth, DisplayHeight, FontSize, List = None):
         # 창 크기
         self.height = 300
@@ -35,6 +36,9 @@ class Quiz_Window:
     
     # 퀴즈 창 만듬
     def makeQuizWindow(self):
+        # 틀 출력
+        pygame.draw.rect(self.screen, White, (self.DisplayWidth / 2 - self.width / 2, self.margin, self.width, self.height))
+        
         # 버튼 출력
         self.OXButton_group = pygame.sprite.Group()
         self.OButton = OXButton(OX_List[2], OX_List[0], self.OButton_pos)
@@ -52,9 +56,6 @@ class Quiz_Window:
         AnswerText = pygame.font.Font('QuestUI/image/Maplestory Light.ttf', ANSWERQUIZ_SIZE)
         Answer_content = AnswerText.render(self.Answer, True, (0, 0, 0))
         self.screen.blit(Answer_content, self.Answer_pos)
-        
-        # 틀 출력
-        pygame.draw.rect(self.screen, Red, (self.DisplayWidth / 2 - self.width / 2, self.margin, self.width, self.height), 5)
     
     # 퀴즈의 정답 유무 확인    
     def QuizManager(self):

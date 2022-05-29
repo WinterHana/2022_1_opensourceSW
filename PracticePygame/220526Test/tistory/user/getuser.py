@@ -1,0 +1,2 @@
+def getuser():
+    return 'kim'

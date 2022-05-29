@@ -5,7 +5,7 @@ from .Button import *
 pygame.init()
 
 # 색깔
-white = (255, 255, 255)
+White = (255, 255, 255)
 Red = (255, 0, 0)
 Blue = (0, 0, 255)
 
@@ -18,8 +18,7 @@ display_height = 400 # 세로 길이
 gameDisplay = pygame.display.set_mode((display_width, display_height))
 pygame.display.set_caption("퀴즈 UI 제작")
 
-# o,x, 표정 저장
-
+# o,x 저장
 OImg = pygame.image.load("QuestUI/image/o.png")
 XImg = pygame.image.load("QuestUI/image/x.png")
 O_blueImg = pygame.image.load("QuestUI/image/o_blue.png")
