@@ -114,9 +114,8 @@ class Quiz_Window:
         return self.PlayQuiz
     
     def gameover(self):
-        del self.OButton
-        del self.XButton
         pygame.draw.rect(self.screen, White, self.rect_pos)
         self.GameOverText = pygame.font.Font('MainGame/QuizImage/Maplestory Light.ttf', 50)
         self.Quiz_content = self.GameOverText.render("게임에서 졌습니다...", True, (0, 0, 0))
+        self.screen.blit(self.Quiz_content, self.Quiz_pos)
         

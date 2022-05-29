@@ -1,4 +1,5 @@
 import random
+from scripts import *
 
 class Quiz_play:
     def __init__(self,  random_quiz, List):      

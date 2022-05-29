@@ -35,6 +35,9 @@ def Stage1():
             del myWindow
             return
         
+        if PLAYER.sprite.hp == 0:
+            myWindow.gameover()
+            
         # updating display
         pygame.display.flip()
         pygame.display.set_caption(f"[{DESCRIPTION}]-[FPS : {CLOCK.get_fps():.2f}]")
@@ -98,7 +101,10 @@ def Stage2():
             if myWindow.getPlayQuiz() == False:
                 del myWindow
                 break
-                
+            
+        if PLAYER.sprite.hp == 0:
+                myWindow.gameover()   
+
         # updating display
         pygame.display.flip()
         pygame.display.set_caption(f"[{DESCRIPTION}]-[FPS : {CLOCK.get_fps():.2f}]")
