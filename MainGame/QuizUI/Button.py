@@ -15,7 +15,7 @@ class OXButton(pygame.sprite.Sprite):
         if self.rect.collidepoint(mouse):
             self.image = image_touch
             if click[0]:
-                time.sleep(0.2)
+                pygame.time.delay(80)
                 self.click = True
         else:
             self.image = image

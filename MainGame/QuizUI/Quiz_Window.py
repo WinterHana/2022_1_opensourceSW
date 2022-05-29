@@ -2,13 +2,15 @@ from tkinter import Button
 import pygame
 import random
 
+from scripts import *
+
 from .ImageAndList import *
 from .Button import *
 from .Quiz_play import *
 
 class Quiz_Window:
-    # 전시할 스크린 / 스크린의 크기 , 폰트 사이즈, 퀴즈 리스트
-    def __init__(self, screen, screen_size, FontSize, List = None):
+    # 전시할 스크린 / 스크린의 크기 , 폰트 사이즈, count, 퀴즈 리스트
+    def __init__(self, screen, screen_size, Max_count, FontSize, List = None):
         # 창 크기
         self.height = 300
         self.width = self.height * 1.61
@@ -28,11 +30,14 @@ class Quiz_Window:
         self.Quiz_pos = (self.DisplayWidth / 2 - self.width / 2 + self.margin , self.margin)
         self.Answer_pos = (self.DisplayWidth / 2 - self.width / 2 + self.margin, self.margin + self.height)
         self.rect_pos = (self.DisplayWidth / 2 - self.width / 2, self.margin, self.width, self.height)
-        # self.OButton_pos = (0, 0)
-        # self.XButton_pos = (0, 0)
-        # self.Quiz_pos = (0 , 0)
-        # self.Answer_pos = (0, 0)
-        # self.rect_pos = (0, 0, 100, 100)
+        
+        # 퀴즈 개수 설정
+        self.Count = 0
+        self.Max_Count = Max_count
+        
+        # 퀴즈 실행 여부 확인
+        self.PlayQuiz = True
+        
         # Quiz_play 객체 설정
         self.Quiz_play = Quiz_play(self.random_quiz, self.List)
         # 퀴즈 내용 폰트 크기 설정
@@ -63,28 +68,50 @@ class Quiz_Window:
         Answer_content = AnswerText.render(self.Answer, True, (0, 0, 0))
         self.screen.blit(Answer_content, self.Answer_pos)
     
+        
     # 퀴즈의 정답 유무 확인    
     def QuizManager(self):
+        
         if self.OButton.getClick() == True and self.List[self.random_quiz][1] == True:
             self.Answer = self.List[self.random_quiz][0] + " 정답"
             self.Quiz_play.AnswerCorrect()
             self.random_quiz = self.Quiz_play.AnswerReset()
+            self.Count += 1
+            print(self.Count)
+            print(self.Max_Count)
             
         elif self.OButton.getClick() == True and self.List[self.random_quiz][1] == False:
             self.Answer = self.List[self.random_quiz][0] + " 오답"
             self.Quiz_play.AnswerIncorrect()
-            self.random_quiz = self.Quiz_play.AnswerReset()   
+            self.random_quiz = self.Quiz_play.AnswerReset()
+            PLAYER.sprite.hp -= 10
+            self.Count += 1
+            print(self.Count)
+            print(self.Max_Count)
             
         elif self.XButton.getClick() == True and self.List[self.random_quiz][1] == False:
             self.Answer = self.List[self.random_quiz][0] + " 정답"
             self.Quiz_play.AnswerCorrect()
             self.random_quiz = self.Quiz_play.AnswerReset()
+            self.Count += 1
+            print(self.Count)
+            print(self.Max_Count)
         
         elif self.XButton.getClick() == True and self.List[self.random_quiz][1] == True:
             self.Answer = self.List[self.random_quiz][0] + " 오답"
             self.Quiz_play.AnswerIncorrect()
             self.random_quiz = self.Quiz_play.AnswerReset()
-    
+            PLAYER.sprite.hp -= 10
+            self.Count += 1
+            print(self.Count)
+            print(self.Max_Count)
+        
+        if self.Count == self.Max_Count:
+            self.PlayQuiz = False
+        
     # 소멸자
     def __del__(self):
         print("객체가 소멸됩니다.")
+    
+    def getPlayQuiz(self):
+        return self.PlayQuiz

@@ -3,3 +3,4 @@ from .Button import *
 from .Quiz_play import *
 from .Quiz_Window import *
 from .ImageAndList import *
+from scripts import *

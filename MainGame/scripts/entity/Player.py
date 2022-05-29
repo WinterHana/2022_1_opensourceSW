@@ -1,5 +1,6 @@
 from scripts import *
 from .Entity import *
+import pygame
 
 class Player(Entity):
 
@@ -31,5 +32,6 @@ class Player(Entity):
 
     # updates this Player
     def update(self):
+        
         super().update(self.get_key_events())
         return
