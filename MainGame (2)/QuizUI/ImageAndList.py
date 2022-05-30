@@ -1,4 +1,3 @@
-from colorama import Back
 import pygame
 
 from scripts import DISPLAY_SIZE
@@ -12,11 +11,9 @@ pygame.init()
 White = (255, 255, 255)
 Red = (255, 0, 0)
 Blue = (0, 0, 255)
+BUTTON_SIZE = (100, 100)
 
-# FPS
-# FPS = 30
-
-# o,x 저장
+# o,x, 배경 저장
 OImg      = load_image(os.path.join(MAIN_PATH, "QuizImage", "o.png"))
 XImg      = load_image(os.path.join(MAIN_PATH, "QuizImage", "x.png"))
 O_blueImg = load_image(os.path.join(MAIN_PATH, "QuizImage", "o_blue.png"))

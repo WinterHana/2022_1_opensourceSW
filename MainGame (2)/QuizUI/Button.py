@@ -7,7 +7,7 @@ class OXButton(pygame.sprite.Sprite):
     def __init__(self, image, image_touch, position, action = None):
         pygame.sprite.Sprite.__init__(self)
         self.click = False
-        size = (70, 70)
+        size = BUTTON_SIZE
         mouse = pygame.mouse.get_pos() # 마우스 좌표 저장
         click = pygame.mouse.get_pressed() # 클릭시 실행
         self.rect = pygame.Rect(position, size)

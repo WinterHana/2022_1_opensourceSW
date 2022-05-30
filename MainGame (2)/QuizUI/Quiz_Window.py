@@ -32,6 +32,7 @@ class Quiz_Window:
         self.Quiz_count_pos = (self.DisplayWidth / 2 + self.margin * 2, self.margin + self.height)
         self.rect_pos = (self.DisplayWidth / 2 - self.width / 2, self.margin, self.width, self.height)
         
+        
         # 퀴즈 개수 설정
         self.Count = 0
         self.Max_Count = Max_count
@@ -111,7 +112,7 @@ class Quiz_Window:
     def getPlayQuiz(self):
         return self.PlayQuiz
     
-    def GameResult(self, GameWin = False):
+    def GameResult(self, GameWin = False, action = None):
         pygame.draw.rect(self.screen, White, self.rect_pos)
         
         # 메시지 출력
@@ -125,17 +126,13 @@ class Quiz_Window:
         
         # 리스타트 ox 버튼 > 위의 함수랑 분리하기 위해 self 제외
         OXButton_group = pygame.sprite.Group()
-        OButton = OXButton(OX_List[2], OX_List[0], self.OButton_pos)
         XButton = OXButton(OX_List[3], OX_List[1], self.XButton_pos)
-        OXButton_group.add(OButton)
         OXButton_group.add(XButton)
         OXButton_group.draw(self.screen)
         
-        # o 누르면 처음부터(함수 지정) / x 누르면 끝내기
-        if OButton.getClick() == True:
-            pass
-            
-        elif XButton.getClick() == True:
+        # x 누르면 끝내기
+                  
+        if XButton.getClick() == True:
             pygame.quit()
             sys.exit()
         

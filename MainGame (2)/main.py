@@ -40,7 +40,7 @@ def Stage1():
             return
         
         if PLAYER.sprite.hp == 0:
-            Grammar_QuiZWindow.GameResult(True)
+            Grammar_QuiZWindow.GameResult(False)
             
         # updating display
         pygame.display.flip()
