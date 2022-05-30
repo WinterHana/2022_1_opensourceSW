@@ -49,7 +49,7 @@ def Stage1():
         
 def Stage2(num_enemies=1): 
     
-    History_QuiZWindow = Quiz_Window(DISPLAY, (DISPLAY_SIZE.x, DISPLAY_SIZE.y), 10, HISTORYQUIZ_SIZE, 1.5, History_QuizList)
+    History_QuiZWindow = Quiz_Window(DISPLAY, (DISPLAY_SIZE.x, DISPLAY_SIZE.y), 10, HISTORYQUIZ_SIZE, 2, History_QuizList)
     
     ENEMIES.empty()
     ENEMIES.add(Enemy(pygame.math.Vector2(25*i+CANVAS_SIZE.x*2/3, CANVAS_SIZE.y//2)) for i in range(num_enemies))
@@ -131,7 +131,7 @@ def Stage2(num_enemies=1):
         
 def Stage3(num_enemies=1): 
     
-    All_QuiZWindow = Quiz_Window(DISPLAY, (DISPLAY_SIZE.x, DISPLAY_SIZE.y), 10, HISTORYQUIZ_SIZE, 1.5, All_QuizList)
+    All_QuiZWindow = Quiz_Window(DISPLAY, (DISPLAY_SIZE.x, DISPLAY_SIZE.y), 10, HISTORYQUIZ_SIZE, 2, All_QuizList)
     
     ENEMIES.empty()
     ENEMIES.add(Enemy(pygame.math.Vector2(25*i+CANVAS_SIZE.x*2/3, CANVAS_SIZE.y//2)) for i in range(num_enemies))
