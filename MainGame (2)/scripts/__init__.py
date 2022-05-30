@@ -34,7 +34,7 @@ FPS   = ARGS.fps if 30 <= ARGS.fps <= 90 else 60
 RATIO_W = 1.6
 RATIO_H = 1.0
 
-DISPLAY_SCALE = 600
+DISPLAY_SCALE = 800
 DISPLAY_SIZE  = pygame.math.Vector2(RATIO_W*DISPLAY_SCALE, RATIO_H*DISPLAY_SCALE)
 DISPLAY       = pygame.display.set_mode(tuple(DISPLAY_SIZE))
 

@@ -16,7 +16,7 @@ class Quiz_play:
 
     def AnswerIncorrect(self):
         print("틀리셨습니다.")
-        PLAYER.sprite.hp -= 10
+        PLAYER.sprite.hp -= 1
         
     def AnswerReset(self):
         self.random_quiz = random.randrange(0, len(self.List))

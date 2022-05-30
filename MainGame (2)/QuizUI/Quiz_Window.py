@@ -111,13 +111,17 @@ class Quiz_Window:
     def getPlayQuiz(self):
         return self.PlayQuiz
     
-    def gameover(self, action):
+    def GameResult(self, GameWin = False):
         pygame.draw.rect(self.screen, White, self.rect_pos)
         
         # 메시지 출력
         self.GameOverText = pygame.font.Font(os.path.join(MAIN_PATH, "QuizImage", "Maplestory Light.ttf"), 40)
-        self.Quiz_content = self.GameOverText.render("Gameover...다시 시작하시겠습니까?", True, (0, 0, 0))
-        self.screen.blit(self.Quiz_content, self.Quiz_pos)
+        self.Quiz_content_lose = self.GameOverText.render("Gameover...", True, (0, 0, 0))
+        self.Quiz_content_win = self.GameOverText.render("YOU WIN!", True, (0, 0, 0))
+        if GameWin == True:
+            self.screen.blit(self.Quiz_content_win, self.Quiz_pos)
+        elif GameWin == False:
+            self.screen.blit(self.Quiz_content_lose, self.Quiz_pos)
         
         # 리스타트 ox 버튼 > 위의 함수랑 분리하기 위해 self 제외
         OXButton_group = pygame.sprite.Group()
@@ -129,7 +133,7 @@ class Quiz_Window:
         
         # o 누르면 처음부터(함수 지정) / x 누르면 끝내기
         if OButton.getClick() == True:
-            action()
+            pass
             
         elif XButton.getClick() == True:
             pygame.quit()

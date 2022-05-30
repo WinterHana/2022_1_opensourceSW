@@ -23,7 +23,6 @@ class OXButton(pygame.sprite.Sprite):
     
     def getClick(self):
         return self.click
-                    
         
         
             
