@@ -115,7 +115,7 @@ class Quiz_Window:
     def GameResult(self, GameWin = False, action = None):
         pygame.draw.rect(self.screen, White, self.rect_pos)
         
-        # 메시지 출력
+        # 메시지 출력 승리/패배
         self.GameOverText = pygame.font.Font(os.path.join(MAIN_PATH, "QuizImage", "Maplestory Light.ttf"), 40)
         self.Quiz_content_lose = self.GameOverText.render("Gameover...", True, (0, 0, 0))
         self.Quiz_content_win = self.GameOverText.render("YOU WIN!", True, (0, 0, 0))
@@ -131,7 +131,6 @@ class Quiz_Window:
         OXButton_group.draw(self.screen)
         
         # x 누르면 끝내기
-                  
         if XButton.getClick() == True:
             pygame.quit()
             sys.exit()

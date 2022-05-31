@@ -112,16 +112,15 @@ def Stage2(num_enemies=1):
             game_clear += enemy.hp
         
         # Quiz_window    
-        if (game_clear == 0):
+        if (game_clear == 0 and PLAYER.sprite.hp != 0):
             History_QuiZWindow.makeQuizWindow()
             History_QuiZWindow.QuizManager()
             if History_QuiZWindow.getPlayQuiz() == False:
                 del History_QuiZWindow
                 return
-                
-        
-        if PLAYER.sprite.hp == 0:
+        elif (PLAYER.sprite.hp == 0):
             History_QuiZWindow.GameResult(False)
+            
         
         # updating display
         pygame.display.flip()
@@ -194,15 +193,18 @@ def Stage3(num_enemies=1):
             game_clear += enemy.hp
         
         # Quiz_window
-        if (game_clear == 0):
+        if (game_clear == 0 and PLAYER.sprite.hp != 0):
             All_QuiZWindow.makeQuizWindow()
             All_QuiZWindow.QuizManager()
+            # 퀴즈가 끝남 > 승리!
             if All_QuiZWindow.getPlayQuiz() == False:
-                All_QuiZWindow.GameResult(True)
-                
-        
-        if PLAYER.sprite.hp == 0:
+                All_QuiZWindow.GameResult(True)  
+        # hp가 0이 되서 패배함    
+        elif PLAYER.sprite.hp == 0:
             All_QuiZWindow.GameResult(False)
+            
+
+
         
         # updating display
         pygame.display.flip()
